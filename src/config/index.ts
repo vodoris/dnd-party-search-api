@@ -13,7 +13,7 @@ export default {
 	port: parseInt(process.env.PORT, 10),
 	jwt: {
 		secret: process.env.JWT_SECRET,
-		expires: process.env.JWT_EXPIRE,
+		expires: process.env.JWT_EXPIRES,
 		algorithm: process.env.JWT_ALGO
 	},
 	logs: {
