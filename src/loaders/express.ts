@@ -2,6 +2,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import routes from '../api';
 import config from '../config';
+import { errors } from 'celebrate';
 import { IError } from '../interfaces';
 
 export default async ({ app }: { app: express.Application }) => {
@@ -23,6 +24,7 @@ export default async ({ app }: { app: express.Application }) => {
 	});
 
 	// error handlers
+	app.use(errors());
 	app.use((err: IError, req: Request, res: Response, next: NextFunction) => {
 		// handle 401 errors thrown by express-jwt
 		if (err.name === 'UnauthorizedError') {
