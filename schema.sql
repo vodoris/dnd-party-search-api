@@ -3,12 +3,12 @@ CREATE SCHEMA IF NOT EXISTS dnd_search_party;
 USE dnd_search_party;
 
 CREATE TABLE roles (
-    id INT AUTO_INCREMENT,
-    role VARCHAR(10),
+    id INT NOT NULL,
+    role VARCHAR(6),
     PRIMARY KEY (id)
 );
 
-INSERT INTO roles (role) VALUES ('player'), ('dm'), ('admin');
+INSERT INTO roles (id, role) VALUES (1, 'player'), (2, 'dm'), (9, 'admin');
 
 CREATE TABLE users (
     id VARCHAR(60) NOT NULL,
