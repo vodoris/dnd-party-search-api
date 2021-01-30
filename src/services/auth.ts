@@ -3,13 +3,9 @@ import jwt from 'jsonwebtoken';
 import config from '../config';
 import { v4 as uuidv4 } from 'uuid';
 import { generateHash } from '../utils/passwords';
+import { IPayload, UserModel } from '../interfaces';
 
-export const registerUser = async (user: {
-	id?: string;
-	email: string;
-	role: number;
-	password: string;
-}) => {
+export const registerUser = async (user: UserModel) => {
 	try {
 		// check if email already registered
 		const [emailFound] = await db.users.find('email', user.email);
@@ -24,11 +20,16 @@ export const registerUser = async (user: {
 		// inserting new user
 		await db.users.insert(user);
 
-		// deleting properties for the JWT payload
+		// always good to do lol
 		delete user.password;
 
 		// generating JWT for our newly registered user
-		const token = jwt.sign(user, config.jwt.secret, { expiresIn: config.jwt.expires });
+		const token = signToken({
+			id: user.id,
+			email: user.email,
+			role_id: user.role_id,
+			username: user.username
+		});
 		return { user, token };
 	} catch (e) {
 		console.error(e);
@@ -44,12 +45,15 @@ export const loginUser = async (user: { email: string; password: string }) => {
 			throw new Error('email not found');
 		}
 
-		// deleting properties for the JWT payload
+		// always good to do lol
 		delete userRecord.password;
 
 		// generating JWT for our login
-		const token = jwt.sign({ ...userRecord }, config.jwt.secret, {
-			expiresIn: config.jwt.expires
+		const token = signToken({
+			id: userRecord.id,
+			email: userRecord.email,
+			role_id: userRecord.role_id,
+			username: userRecord.username
 		});
 
 		return { user: userRecord, token };
@@ -57,4 +61,10 @@ export const loginUser = async (user: { email: string; password: string }) => {
 		console.error(e);
 		throw e;
 	}
+};
+
+const signToken = (payload: IPayload) => {
+	return jwt.sign(payload, config.jwt.secret, {
+		expiresIn: config.jwt.expires
+	});
 };

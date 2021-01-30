@@ -13,7 +13,11 @@ export default (app: Router) => {
 			body: Joi.object({
 				email: Joi.string().required(),
 				password: Joi.string().required(),
-				role_id: Joi.number().required()
+				role_id: Joi.number().required(),
+				username: Joi.string().required(),
+				first_name: Joi.string().required(),
+				last_name: Joi.string().required(),
+				avatar_url: Joi.string().optional()
 			})
 		}),
 		async (req: Request, res: Response, next: NextFunction) => {
@@ -22,7 +26,7 @@ export default (app: Router) => {
 				const { user, token } = await registerUser(userDTO);
 				return res.status(201).json({ msg: 'user registered', user, token });
 			} catch (e) {
-				console.error('🔥 error: ', e);
+				console.error('error: ', e);
 				return next(e);
 			}
 		}
@@ -42,7 +46,7 @@ export default (app: Router) => {
 				const { user, token } = await loginUser(userDTO);
 				return res.status(200).json({ msg: 'user login successful', user, token });
 			} catch (e) {
-				console.error('🔥 error: ', e);
+				console.error('error: ', e);
 				return next(e);
 			}
 		}
