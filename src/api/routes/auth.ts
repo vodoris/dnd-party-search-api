@@ -25,7 +25,7 @@ export default (app: Router) => {
 			try {
 				const userDTO = req.body;
 				const { user, token } = await registerUser(userDTO);
-				return res.status(201).json({ msg: 'user registered', user, token });
+				return res.status(201).json({ message: 'user registered', user, token });
 			} catch (e) {
 				logger.error('☠️ error: ', e);
 				return next(e);
@@ -45,7 +45,7 @@ export default (app: Router) => {
 			try {
 				const userDTO = req.body;
 				const { user, token } = await loginUser(userDTO);
-				return res.status(200).json({ msg: 'user login successful', user, token });
+				return res.status(200).json({ message: 'user login successful', user, token });
 			} catch (e) {
 				logger.error('☠️ error: ', e);
 				return next(e);

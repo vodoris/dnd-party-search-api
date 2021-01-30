@@ -5,6 +5,7 @@
 	"main": "src/app.ts",
 	"scripts": {
 		"build": "tsc",
+		"heroku-postbuild": "npm run seed && npm run build",
 		"deploy": "git push heroku main",
 		"start": "nodemon",
 		"inspect": "nodemon --inspect src/app.ts",
@@ -12,7 +13,8 @@
 		"lint": "npm run lint:js",
 		"lint:eslint": "eslint --ignore-path .gitignore --ext .ts",
 		"lint:js": "npm run lint:eslint src/",
-		"lint:fix": "npm run lint:js -- --fix"
+		"lint:fix": "npm run lint:js -- --fix",
+		"seed": "ts-node src/seeds/index.ts"
 	},
 	"repository": {
 		"type": "git",

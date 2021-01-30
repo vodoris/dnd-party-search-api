@@ -1,6 +1,6 @@
-CREATE SCHEMA IF NOT EXISTS dnd_search_party;
+CREATE SCHEMA IF NOT EXISTS dnd_party_search;
 
-USE dnd_search_party;
+USE dnd_party_search;
 
 CREATE TABLE roles (
     id INT NOT NULL,
