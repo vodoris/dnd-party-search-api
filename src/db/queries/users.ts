@@ -3,7 +3,7 @@ import type { UserModel, DBResponse } from '../../interfaces';
 
 const all = () => Query<UserModel[]>(`SELECT * FROM users`);
 
-const one = (id: strring) => Query<UserModel[]>(`SELECT * FROM users WHERE id = ?`, [id]);
+const one = (id: string) => Query<UserModel[]>(`SELECT * FROM users WHERE id = ?`, [id]);
 
 const insert = (user: UserModel) => Query<DBResponse>(`INSERT INTO users SET ?`, user);
 
