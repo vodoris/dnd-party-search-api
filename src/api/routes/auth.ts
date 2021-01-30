@@ -1,6 +1,7 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { celebrate, Joi } from 'celebrate';
 import { loginUser, registerUser } from '../../services/auth';
+import logger from '../../loaders/logger';
 
 const route = Router();
 
@@ -26,7 +27,7 @@ export default (app: Router) => {
 				const { user, token } = await registerUser(userDTO);
 				return res.status(201).json({ msg: 'user registered', user, token });
 			} catch (e) {
-				console.error('error: ', e);
+				logger.error('☠️ error: ', e);
 				return next(e);
 			}
 		}
@@ -46,7 +47,7 @@ export default (app: Router) => {
 				const { user, token } = await loginUser(userDTO);
 				return res.status(200).json({ msg: 'user login successful', user, token });
 			} catch (e) {
-				console.error('error: ', e);
+				logger.error('☠️ error: ', e);
 				return next(e);
 			}
 		}

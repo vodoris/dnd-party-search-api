@@ -2,7 +2,7 @@ import db from '../db';
 import jwt from 'jsonwebtoken';
 import config from '../config';
 import { v4 as uuidv4 } from 'uuid';
-import { generateHash } from '../utils/passwords';
+import { compareHash, generateHash } from '../utils/passwords';
 import { IPayload, UserModel } from '../interfaces';
 
 export const registerUser = async (user: UserModel) => {
@@ -32,7 +32,6 @@ export const registerUser = async (user: UserModel) => {
 		});
 		return { user, token };
 	} catch (e) {
-		console.error(e);
 		throw e;
 	}
 };
@@ -42,7 +41,12 @@ export const loginUser = async (user: { email: string; password: string }) => {
 		// check if email exists
 		const [userRecord] = await db.users.find('email', user.email);
 		if (!userRecord) {
-			throw new Error('email not found');
+			throw new Error('email or password incorrect');
+		}
+
+		const compared = await compareHash(user.password, userRecord.password);
+		if (!compared) {
+			throw new Error('email or password incorrect');
 		}
 
 		// always good to do lol
@@ -58,7 +62,6 @@ export const loginUser = async (user: { email: string; password: string }) => {
 
 		return { user: userRecord, token };
 	} catch (e) {
-		console.error(e);
 		throw e;
 	}
 };

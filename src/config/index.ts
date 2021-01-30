@@ -6,7 +6,7 @@ const envFound = dotenv.config();
 
 if (!envFound) {
 	// this error should crash whole process
-	throw new Error('⚠️  .env file not found  ⚠️');
+	throw new Error('.env file not found');
 }
 
 export default {
@@ -17,7 +17,8 @@ export default {
 		algorithm: process.env.JWT_ALGO
 	},
 	logs: {
-		level: process.env.LOG_LEVEL
+		level: process.env.LOG_LEVEL,
+		morgan: process.env.MORGAN_LEVEL
 	},
 	api: {
 		prefix: process.env.API_PREFIX

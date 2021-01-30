@@ -1,7 +1,9 @@
 import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
+import morgan from 'morgan';
 import routes from '../api';
 import config from '../config';
+import { stream } from './logger';
 import { errors } from 'celebrate';
 import { IError } from '../interfaces';
 
@@ -14,6 +16,7 @@ export default async ({ app }: { app: express.Application }) => {
 	app.enable('trust proxy');
 	app.use(cors());
 	app.use(express.json());
+	app.use(morgan(config.logs.morgan, { stream }));
 	app.use(config.api.prefix, routes());
 
 	/// catch 404 and forward to error handler

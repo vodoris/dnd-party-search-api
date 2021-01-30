@@ -1,5 +1,4 @@
 import bcrypt from 'bcrypt';
-import e from 'express';
 
 export const generateHash = async (password: string) => {
     try {
@@ -7,7 +6,15 @@ export const generateHash = async (password: string) => {
         const hash = await bcrypt.hash(password, salt);
         return hash;
     } catch (e) {
-        console.error(e);
+        throw e;
+    }
+}
+
+export const compareHash = async (password: string, hash: string) => {
+    try {
+        const comparison = await bcrypt.compare(password, hash);
+        return comparison;
+    } catch (e) {
         throw e;
     }
 }
